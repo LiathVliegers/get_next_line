@@ -1,134 +1,87 @@
-EVALUATIONS:
+
+file descriptor return values:
+-1 	= NONEXISTANT
+0 	= STDIN
+1 	= STDOUT
+2 	= STDERROR
+3 	= this can be the next file, if you create another one it can return 4, and the next one will be 5
+
+if the program returns -1 the file in nonexistent.
 
 
-GET_NEXT_LINE
 
-Introduction
+read function:
 
-Please comply with the following rules:
+int read(int fileDescriptor, void *buffer, size_t bytesToRead);
 
-- Remain polite, courteous, respectful and constructive throughout the
-evaluation process. The well-being of the community depends on it.
-
-- Identify with the student or group whose work is evaluated the possible
-dysfunctions in their project. Take the time to discuss and debate the
-problems that may have been identified.
-
-- You must consider that there might be some differences in how your peers
-might have understood the project's instructions and the scope of its
-functionalities. Always keep an open mind and grade them as honestly as
-possible. The pedagogy is useful only and only if the peer-evaluation is
-done seriously.
-Guidelines
-
-- Only grade the work that was turned in the Git repository of the evaluated
-student or group.
-
-- Double-check that the Git repository belongs to the student(s). Ensure that
-the project is the one expected. Also, check that 'git clone' is used in an
-empty folder.
-
-- Check carefully that no malicious aliases was used to fool you and make you
-evaluate something that is not the content of the official repository.
-
-- To avoid any surprises and if applicable, review together any scripts used
-to facilitate the grading (scripts for testing or automation).
-
-- If you have not completed the assignment you are going to evaluate, you have
-to read the entire subject prior to starting the evaluation process.
-
-- Use the available flags to report an empty repository, a non-functioning
-program, a Norm error, cheating, and so forth.
-In these cases, the evaluation process ends and the final grade is 0,
-or -42 in case of cheating. However, except for cheating, student are
-strongly encouraged to review together the work that was turned in, in order
-to identify any mistakes that shouldn't be repeated in the future.
-
-- Remember that for the duration of the defence, no segfault, no other
-unexpected, premature, uncontrolled or unexpected termination of the
-program, else the final grade is 0. Use the appropriate flag.
-You should never have to edit any file except the configuration file if it
-exists. If you want to edit a file, take the time to explicit the reasons
-with the evaluated student and make sure both of you are okay with this.
-
-- You must also verify the absence of memory leaks. Any memory allocated on
-the heap must be properly freed before the end of execution.
-You are allowed to use any of the different tools available on the computer,
-such as leaks, valgrind, or e_fence. In case of memory leaks, tick the
-appropriate flag.
+It takes in three arguments which are described below:
+    1. fileDescriptor: We need to provide the function with an integer file descriptor for the opened file, which the open() function returns when opening a file.
+    2. buffer: This pointer points to a buffer where data that is read will be stored.
+    3. bytesToRead: Here, we provide an unsigned integer variable that specifies the maximum number of bytes we want to read from the file.
 
 
-Mandatory Part
 
-Norminette
 
-Run the Norminette. If there is an error, the evaluation stops here.
-You can keep going and discuss the implementation of the code, but the
-assignment will not be graded.
+WORKING VERSION OF GET NEXT LINE:
+char	*get_next_line(int fd)
+{
+	char buffer[1024];
+	int bytes_read;
+	char *next_line;
+	int len;
+	static int start = 0;
+	
+	len = 0;
+	bytes_read = read(fd, buffer, sizeof(buffer));
 
-Compilation
+	printf("%d bytes read!\n", bytes_read);
+	
+	while(buffer[start + len] != '\n')
+		len++;
+	
+	next_line = ft_substr(buffer, start, len);
+	start = start + len + 1;
 
-It should be possible to compile the project with the usual flags and -D BUFFER_SIZE.
-It must be possible to compile this project with and without this flag in addition to
-the flags: -Wall -Wextra -Werror. If there is an error, the evaluation stops here.
-You can keep going and discuss the implementation of the code, but the
-assignment will not be graded.
+	return(next_line);
+}
 
-Error management
+int	main(void)
+{
+	int fd;
 
-Carry out AT LEAST the following tests to try to stress the error
-management.
+	fd = open("textfile.txt", O_RDONLY);
+	printf("The fist line of the file = %s\n", get_next_line(fd));
+	printf("The seccond line of the file = %s\n", get_next_line(fd));
+	printf("The third line of the file = %s\n", get_next_line(fd));
+	printf("The fourth line of the file = %s\n", get_next_line(fd));
+	printf("The fifth line of the file = %s\n", get_next_line(fd));
+	printf("The sixth line of the file = %s\n", get_next_line(fd));
+	printf("The seventh line of the file = %s\n", get_next_line(fd));
+	
+	return (0);
+}
 
-    Pass an arbitrary file descriptor to the get_next_line function on which it is not possible to read, for example 42. The function must return NULL.
-    Check the error returns for read and malloc. If there is an error, the evaluation stops here. You can keep going and discuss the implementation of the code, but the assignment will not be graded.
+TEXTFILE:
+Halloooooooo dit is de eerste regel JOEPIIIEE!!!!!!!!!!!!!
+Dit is de tweede regel.
+Dit is de derde regel.
+Dit is de vierde regel. Hierna komen twee new lines, wat gaan we daarmee doen?
 
-Testing
 
-As the evaluator, you are expected to provide a main which will always check:
+Dit is de vijfde (of eigenlijk zevende) regel.
 
-    The return value of the get_next_line is NULL in case of error.
-    Otherwise, the function returns the line read, always with a \n at the end except if the end of file was reached and does not end with a \n character.
-
-Test all the possible combinations of the following rules:
-
-    Large BUFFER_SIZE (>1024)
-    Small BUFFER_SIZE (< 8, and 1)
-    BUFFER_SIZE exactly the length of the line to read
-
-    1 byte variant (+/-) between the line and the BUFFER_SIZE
-
-    Read on stdin
-
-    Read from a file
-
-    (Multiple/Single) Long line (2k+ characters)
-
-    (Multiple/Single) Short line (< 4 characters, even 1)
-
-    (Multiple/Single) Empty line
-
-These tests should enable you to verify the strength of the student's
-get_next_line.
-If there is an error, the evaluation stops here.
-
-Bonus part
-
-Evaluate the bonus part if, and only if, the mandatory part has been entirely and perfectly done, and the error management handles unexpected or bad usage. In case all the mandatory points were not passed during the defense, bonus points must be totally ignored.
-Multiple fd reading
-
-Perform the same tests as you did before, this time launch multiple
-instances of get_next_line with a different file descriptor on each. Make
-sure that each get_next_line is returning the correct line. Combine with
-a non-existing fd to check for errors.
-
-Single static variable
-
-Check the code and verify if there is indeed only one static variable.
-Give the points if that's the case.
-
-Ratings
-
-Don’t forget to check the flag corresponding to the defense
-Conclusion
-
-Leave a comment on this evaluation
+OUTPUT:
+234 bytes read!
+The fist line of the file = Halloooooooo dit is de eerste regel JOEPIIIEE!!!!!!!!!!!!!
+0 bytes read!
+The seccond line of the file = Dit is de tweede regel.
+0 bytes read!
+The third line of the file = Dit is de derde regel.
+0 bytes read!
+The fourth line of the file = Dit is de vierde regel. Hierna komen twee new lines, wat gaan we daarmee doen?
+0 bytes read!
+The fifth line of the file = 
+0 bytes read!
+The sixth line of the file = 
+0 bytes read!
+The seventh line of the file = Dit is de vijfde (of eigenlijk zevende) regel.
