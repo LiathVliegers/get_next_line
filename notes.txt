@@ -1,16 +1,70 @@
 
-file descriptor return values:
--1 	= NONEXISTANT
-0 	= STDIN
-1 	= STDOUT
-2 	= STDERROR
-3 	= this can be the next file, if you create another one it can return 4, and the next one will be 5
+https://github.com/makervin/get_next_line
+https://github.com/520luigi/Get_Next_Line/blob/master/get_next_line.c
+https://github.com/jdecorte-be/42-Get-next-line/blob/master/get_next_line.c
+https://www.youtube.com/watch?v=8E9siq7apUU
+
+
+
+File Descriptor (fd) return values:
+-1 	= NONEXISTANT.
+0 	= STDIN				this is where it gets its input.
+1 	= STDOUT			this is where it sends it's output.
+2 	= STDERR			this is where it reports errors.
+3 	= 					this can be the next file, if you create another one it can return 4, and the next one will be 5.
 
 if the program returns -1 the file in nonexistent.
+0, 1 and 2 are all connected to the terminal. 
+
+
+EVERYTHING is a file. The terminal is a file, a file is a file enz.
+the file descriptor is a series of numbers linked to a specific file that your operating system is handling when a process is launched.
 
 
 
-read function:
+
+
+OPEN FUNCTION:
+
+int open(const char *pathname, int flags);
+
+	The open() function opens a file for reading or writing. 
+	This function opens the file that is specified in the pathname input argument. 
+	This input must specify the absolute or relative path and the name of the file in string format or a pointer to it.
+	
+	The flags input argument specifies the attributes that the file must have. 
+	The following is a list of the flags that this input argument accepts, and a brief description of the attribute that each one sets:
+
+Flag 		Description
+O_RDONLY 	Open file for reading only.
+O_WRONLY 	Open file for writing only.
+O_RDWR 		Open file for reading and writing.
+O_CREAT 	Creates a file in the path and name specified in pathname argument.
+O_ APPEND 	Opens the file and places the cursor at the end of the contents.
+O_ASYNC 	Enable input and output control by signal.
+O_CLOEXEC 	Enable close-on-exec mode on the open file.
+O_NONBLOCK 	Disables blocking of the file opened.
+O_TMPFILE 	Create an unnamed temporary file at the specified path.
+
+In cases where more than one flag is used, a logical “OR” operation must be performed between them.
+
+
+Example:
+int main()
+{
+	int fd;
+
+	fd = open("file.txt", O_RDONLY | O_CREAT);
+
+	printf("fd of the file is: %d\n", fd);
+
+	write(1, "hello", 5);		"hello" will be displayed in the terminal
+	write(fd, "hello", 5);		"hello" will be displayed in file.txt file
+}
+
+
+
+READ FUNCTION:
 
 int read(int fileDescriptor, void *buffer, size_t bytesToRead);
 
@@ -18,6 +72,20 @@ It takes in three arguments which are described below:
     1. fileDescriptor: We need to provide the function with an integer file descriptor for the opened file, which the open() function returns when opening a file.
     2. buffer: This pointer points to a buffer where data that is read will be stored.
     3. bytesToRead: Here, we provide an unsigned integer variable that specifies the maximum number of bytes we want to read from the file.
+
+EXAMPLE: 
+read(3, buf, 10);
+"Read from the fd 3 into the buffer, 10 bytes (or in this case chars) per call to the function"
+when i recall the function, i get THE NEXT 10 bytes(chars).
+
+
+
+
+
+
+
+
+
 
 
 
@@ -85,3 +153,7 @@ The fifth line of the file =
 The sixth line of the file = 
 0 bytes read!
 The seventh line of the file = Dit is de vijfde (of eigenlijk zevende) regel.
+
+
+--------------------------------------------------------------------------------
+

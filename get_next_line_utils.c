@@ -6,11 +6,20 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:29:03 by livliege          #+#    #+#             */
-/*   Updated: 2023/11/23 14:30:18 by livliege         ###   ########.fr       */
+/*   Updated: 2023/11/24 19:42:35 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+
+// FUNCTIONS TO USE:
+// ft_bzero
+// ft_strjoin
+// ft_strchr
+// ft_calloc
+// ft_strlen
+
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -66,3 +75,5 @@ char	*ft_strdup(const char *s)
 	str[i] = '\0';
 	return (str);
 }
+
+
