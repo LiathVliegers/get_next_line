@@ -66,6 +66,8 @@ int main()
 
 READ FUNCTION:
 
+read returns the number of bytes read, -1 for errors and 0 for end of file
+
 int read(int fileDescriptor, void *buffer, size_t bytesToRead);
 
 It takes in three arguments which are described below:
