@@ -6,7 +6,7 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 17:59:09 by livliege          #+#    #+#             */
-/*   Updated: 2023/11/29 19:04:06 by livliege         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:14:00 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*read_fd(int fd, char *buffer)
 	while((bytes_read = read(fd, buffer, BUFFER_SIZE)))
 	{
 		printf("%sbytes read: %d%s\n", RED, bytes_read, DEFAULT);
-		
 	}
 	buffer[bytes_read] = '\0';
 	return (buffer);
