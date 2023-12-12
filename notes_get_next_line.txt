@@ -289,13 +289,3 @@ READLINE(the fd, the buffer, substrings[fd])
 
 
 
-Hallo! 
-
-U kent mij niet en ik ken u niet, maar ik stuur deze kaart met de hoop dat het een lichtpuntje mag zijn tijdens deze donkere koude dagen.
-Mijn naam is Liath en ik studeer programmeren aan een geweldige school in Amsterdam, waar ik elke dag met veel plezier naar toe ga.
-Daarnaast werk ik in een bakkerij achter de toonbank en ik vind het vooral leuk om mooie koffies te maken voor de gasten.
-Ik woon met mijn beste vriendin Cato en onze twee katten, Kitja en Obi, in Amsterdam.
-Kitja is een dame van 7 jaar oud en Obi een jongen van 1 jaar. Ze zijn helaas nog geen beste maatjes, dus we houden ze nog veel gescheiden, maar we hopen dat ze op een dag elkaar gezelschap kunnen houden wanneer wij van huis zijn.
-Kitja en Cato wonen nu bijna een jaar bij ons, en ondanks dat er nog veel moet gebeuren om ons huisje als een echt thuis te laten voelen, hebben we het heel erg fijn met z'n viertjes.
-
-
