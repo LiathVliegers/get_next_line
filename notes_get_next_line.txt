@@ -163,15 +163,30 @@ GET NEXT LINE!
 MAIN
 - open the file or files in main
 - call ft_get next line for the fd you want
-GET_NEXT_LINE
+GET_NEXT_LINE(fd)
 - in the function ft_get_nextLine we declare a static char* substrings[MAX_FD], we also declare a small char *buffer to store the BUFFER_SIZE abount of bites in, and a char *next_line that we were meant to get
 - if de fd is less than 0 or BUFFER_SIZE is 0 or less, we return (NULL)
 - we malloc BUFFER_SIZE + 1 for buffer and protect it ofcourse
 - then we initialize next_line to the return value of the function ft_readline and pass it the fd, the buffer and substrings[fd], this is where the magic happens!
 - we don't need buffer anymore so we can free it, and set it to NULL
-- now we need to put the remainder of 
-READLINE
+- now we need to put the remainder of buffer (after the \n) in substrings[fd]
 - 
+READLINE(the fd, the buffer, substrings[fd])
+- initialize int bytes_read and a char *temp
+- 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -270,4 +285,17 @@ READLINE
 			
 			return (0);
 		}
+
+
+
+
+Hallo! 
+
+U kent mij niet en ik ken u niet, maar ik stuur deze kaart met de hoop dat het een lichtpuntje mag zijn tijdens deze donkere koude dagen.
+Mijn naam is Liath en ik studeer programmeren aan een geweldige school in Amsterdam, waar ik elke dag met veel plezier naar toe ga.
+Daarnaast werk ik in een bakkerij achter de toonbank en ik vind het vooral leuk om mooie koffies te maken voor de gasten.
+Ik woon met mijn beste vriendin Cato en onze twee katten, Kitja en Obi, in Amsterdam.
+Kitja is een dame van 7 jaar oud en Obi een jongen van 1 jaar. Ze zijn helaas nog geen beste maatjes, dus we houden ze nog veel gescheiden, maar we hopen dat ze op een dag elkaar gezelschap kunnen houden wanneer wij van huis zijn.
+Kitja en Cato wonen nu bijna een jaar bij ons, en ondanks dat er nog veel moet gebeuren om ons huisje als een echt thuis te laten voelen, hebben we het heel erg fijn met z'n viertjes.
+
 
