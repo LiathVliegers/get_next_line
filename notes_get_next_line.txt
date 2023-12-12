@@ -1,8 +1,5 @@
 
-https://github.com/makervin/get_next_line
-https://github.com/520luigi/Get_Next_Line/blob/master/get_next_line.c
-https://github.com/jdecorte-be/42-Get-next-line/blob/master/get_next_line.c
-https://www.youtube.com/watch?v=8E9siq7apUU
+
 
 
 
@@ -158,4 +155,119 @@ The seventh line of the file = Dit is de vijfde (of eigenlijk zevende) regel.
 
 
 --------------------------------------------------------------------------------
+
+
+
+GET NEXT LINE!
+
+MAIN
+- open the file or files in main
+- call ft_get next line for the fd you want
+GET_NEXT_LINE
+- in the function ft_get_nextLine we declare a static char* substrings[MAX_FD], we also declare a small char *buffer to store the BUFFER_SIZE abount of bites in, and a char *next_line that we were meant to get
+- if de fd is less than 0 or BUFFER_SIZE is 0 or less, we return (NULL)
+- we malloc BUFFER_SIZE + 1 for buffer and protect it ofcourse
+- then we initialize next_line to the return value of the function ft_readline and pass it the fd, the buffer and substrings[fd], this is where the magic happens!
+- we don't need buffer anymore so we can free it, and set it to NULL
+- now we need to put the remainder of 
+READLINE
+- 
+
+
+
+	#include "get_next_line_bonus.h"
+
+	static char	*read_line(int fd, char *buf, char *backup)
+	{
+		int		check;
+		char	*temp;
+
+		check = 1;
+		while (check)
+		{
+			check = read(fd, buf, BUFFER_SIZE);
+			if (check == -1)
+				return (0);
+			else if (check == 0)
+				break ;
+			buf[check] = '\0';
+			if (!backup)
+				backup = ft_strdup("");
+			temp = backup;
+			backup = (ft_strjoin(temp, buf));
+			if (!backup)
+				return (NULL);
+			free (temp);
+			temp = NULL;
+			if (ft_strchr(buf, '\n'))
+				break ;
+		}
+		return (backup);
+	}
+
+	static char	*extract(char *line)
+	{
+		int		i;
+		char	*temp;
+
+		i = 0;
+		while (line[i] != '\0' && line[i] != '\n')
+			i++;
+		if (line[i] == '\0')
+			return (NULL);
+		temp = ft_substr(line, i + 1, ft_strlen(line) - i);
+		if (!temp)
+			return (NULL);
+		if (temp[0] == '\0')
+		{
+			free (temp);
+			temp = NULL;
+			return (NULL);
+		}
+		line[i + 1] = '\0';
+		return (temp);
+	}
+
+	char	*get_next_line(int fd)
+	{
+		char		*buf;
+		char		*line;
+		static char	*backup[OPEN_MAX];
+
+		if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
+			return (NULL);
+		buf = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		if (!buf)
+			return (NULL);
+		line = read_line(fd, buf, backup[fd]);
+		free(buf);
+		buf = NULL;
+		if (!line)
+			return (NULL);
+		backup[fd] = extract(line);
+		return (line);
+	}
+
+
+
+
+		int	main(void)
+		{
+			int fd1;
+			int fd2;
+			int fd3;
+
+			fd1 = open("textfile.txt", O_RDONLY);
+			fd2 = open("textfile2.txt", O_RDONLY);
+			fd3 = open("textfile3.txt", O_RDONLY);
+
+			printf("The fist 	line of the file 1 = %s\n", get_next_line(fd1));
+			printf("The fist 	line of the file 2 = %s\n", get_next_line(fd2));
+			printf("The fist 	line of the file 3 = %s\n", get_next_line(fd3));
+			printf("The seccond line of the file 1 = %s\n", get_next_line(fd1));
+			printf("The seccond line of the file 2 = %s\n", get_next_line(fd2));
+			printf("The seccond line of the file 3 = %s\n", get_next_line(fd3));
+			
+			return (0);
+		}
 
