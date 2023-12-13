@@ -170,12 +170,24 @@ GET_NEXT_LINE(fd)
 - then we initialize next_line to the return value of the function ft_readline and pass it the fd, the buffer and substrings[fd], this is where the magic happens!
 - we don't need buffer anymore so we can free it, and set it to NULL
 - now we need to put the remainder of buffer (after the \n) in substrings[fd]
-- 
 READLINE(the fd, the buffer, substrings[fd])
-- initialize int bytes_read and a char *temp
+- initialize int bytes_read and a char *next_line and a char *temp
+- bytes_read = 1
+- in a while loop: while bytes_read != 0, then we do this:
+- bytes_read = read(file bla bla)
+- if (ft_strchr(buf, '\n'))
+	{
+		
+	}
+	else
+	{
+- 		temp = next_line
+- 		next_line = strjoin(temp, buffer)
+	}
 - 
-
-
+- 
+- 
+- 
 
 
 
