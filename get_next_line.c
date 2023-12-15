@@ -33,16 +33,30 @@ https://gh.xxfe.com/topics/42-get-next-line
 
 char	*readline(int fd, char *buffer)
 {
-
+	static char *substrings[FD_LIMIT];
+	char *line;
+	int bytes_read;
+	
+	bytes_read = 1;
+	while (bytes_read)
+	{
+		bytes_read = read(fd, buffer);
+		if (ft_strchr(buffer, '\n')
+		{
+			...
+		}
+		line = ft_strjoin(line, buffer);
+	}
 }
 
 
 char	*get_next_line(int fd)
 {
-	static char *substrings[FD_LIMIT];
 	char *buffer;
 	char *next_line;
 	
+	buffer = (char *)malloc((sizeof char * BUFFER_SIZE) + 1);
+	next_line = readline(fd, buffer);
 	return (next_line);
 }
 
