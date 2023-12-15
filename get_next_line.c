@@ -35,18 +35,43 @@ char	*readline(int fd, char *buffer)
 {
 	static char *substrings[FD_LIMIT];
 	char *line;
+	char *temp;
 	int bytes_read;
+	int i;
+	int j;
+	int nlc;
 	
 	bytes_read = 1;
+	nlc = 0;
+	j = 0;
+	
 	while (bytes_read)
 	{
 		bytes_read = read(fd, buffer);
+		buffer[bytes_read] = '\0';
 		if (ft_strchr(buffer, '\n')
 		{
-			...
+			while (buffer[nlc] != '\n')
+				nlc++;
+			i = nlc;
+			while (i != 0)
+			{
+				temp[j] = buffer[j];
+				j++;
+				i--;
+			}
+			line = ft_strjoin(line, temp);
+			while (buffer != '\0'
+			{
+				substrings[fd][i] = buffer[nlc];
+				i++;
+				nlc++;
+			}
 		}
-		line = ft_strjoin(line, buffer);
+		else
+			line = ft_strjoin(line, buffer);
 	}
+	return (line);
 }
 
 
