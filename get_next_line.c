@@ -45,11 +45,12 @@ char	*readline(int fd, char *buffer)
 	nlc = 0;
 	j = 0;
 	
-	while (bytes_read)
+	while (bytes_read != 0)
 	{
-		bytes_read = read(fd, buffer);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		buffer[bytes_read] = '\0';
-		if (ft_strchr(buffer, '\n')
+		// if substrings[fd] is not empty, put it in line and clear it
+		if (ft_strchr(buffer, '\n'))
 		{
 			while (buffer[nlc] != '\n')
 				nlc++;
@@ -61,7 +62,7 @@ char	*readline(int fd, char *buffer)
 				i--;
 			}
 			line = ft_strjoin(line, temp);
-			while (buffer != '\0'
+			while (buffer != '\0')
 			{
 				substrings[fd][i] = buffer[nlc];
 				i++;
@@ -71,31 +72,37 @@ char	*readline(int fd, char *buffer)
 		else
 			line = ft_strjoin(line, buffer);
 	}
+	// free line?
 	return (line);
 }
-
 
 char	*get_next_line(int fd)
 {
 	char *buffer;
 	char *next_line;
 	
-	buffer = (char *)malloc((sizeof char * BUFFER_SIZE) + 1);
+	buffer = (char *)malloc((sizeof(char) * BUFFER_SIZE) + 1);
 	next_line = readline(fd, buffer);
 	return (next_line);
 }
 
 int	main(void)
 {
-	int		fd1;
-	int		fd2;
+	int fd1;
+	int fd2;
+	// int fd3;
 
 	fd1 = open("textfile.txt", O_RDONLY);
 	fd2 = open("textfile2.txt", O_RDONLY);
+	// fd3 = open("textfile3.txt", O_RDONLY);
 
-	printf("%sfd1 = %d%s\n", BLUE, fd1, DEFAULT);
-	printf("%sfd2 = %d%s\n", BLUE, fd2, DEFAULT);
-	
+	printf("The fist 	line of the file 1 = %s\n", get_next_line(fd1));
+	printf("The fist 	line of the file 2 = %s\n", get_next_line(fd2));
+	// printf("The fist 	line of the file 3 = %s\n", get_next_line(fd3));
+	printf("The seccond line of the file 1 = %s\n", get_next_line(fd1));
+	printf("The seccond line of the file 2 = %s\n", get_next_line(fd2));
+	// printf("The seccond line of the file 3 = %s\n", get_next_line(fd3));
+
 	return (0);
 }
 
