@@ -6,13 +6,11 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 17:59:09 by livliege          #+#    #+#             */
-/*   Updated: 2023/12/13 16:13:29 by livliege         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:06:00 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-https://gh.xxfe.com/topics/42-get-next-line
-*/
+
 
 #include "get_next_line.h"
 
@@ -31,78 +29,128 @@ https://gh.xxfe.com/topics/42-get-next-line
 # define BUFFER_SIZE 10
 #endif
 
-char	*readline(int fd, char *buffer)
+
+
+
+
+int	main(void)
 {
-	static char *substrings[FD_LIMIT];
-	char *line;
-	char *temp;
-	int bytes_read;
-	int i;
-	int j;
-	int nlc;
+	int		fd;
+	int 	line_nbr = 1;
+	char	*str;
 	
-	bytes_read = 1;
-	nlc = 0;
-	j = 0;
+	fd = open("textfile.txt", O_RDONLY);
+	printf("%sfd = %d%s\n", BLUE, fd, DEFAULT);
 	
-	while (bytes_read != 0)
+	// str = get_next_line(fd);
+	// printf("%s", str);
+
+	while((str = get_next_line(fd)))
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[bytes_read] = '\0';
-		// if substrings[fd] is not empty, put it in line and clear it
-		if (ft_strchr(buffer, '\n'))
-		{
-			while (buffer[nlc] != '\n')
-				nlc++;
-			i = nlc;
-			while (i != 0)
-			{
-				temp[j] = buffer[j];
-				j++;
-				i--;
-			}
-			line = ft_strjoin(line, temp);
-			while (buffer != '\0')
-			{
-				substrings[fd][i] = buffer[nlc];
-				i++;
-				nlc++;
-			}
-		}
-		else
-			line = ft_strjoin(line, buffer);
+		printf("%sline #%d:%s %s", RED, line_nbr, DEFAULT, str);
+		line_nbr++;
 	}
-	// free line?
-	return (line);
+	// ft_putchar('\n');
+	return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// VINCENT'S VERSION:
+
+#include "get_next_line.h"
+
+#include <unistd.h>
+#include <stdio.h>
+
+#define MAX_FD	1024
+
+static void	free_null(char **ptr)
+{
+	if (*ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
+}
+
+char	*create_line(int nl_position, char **buffer)
+{
+	char	*res;
+	char	*tmp;
+
+	if (nl_position == 0)
+	{
+		if (**buffer == '\0')
+			return (free_null(buffer), NULL);
+		res = *buffer;
+		*buffer = NULL;
+		return (res);
+	}
+	res = ft_substr(*buffer, 0, nl_position);
+	if (res == NULL)
+		return (free_null(buffer), NULL);
+	tmp = *buffer;
+	*buffer = ft_substr(*buffer, nl_position, BUFFER_SIZE);
+	free(tmp);
+	if (*buffer == NULL)
+		return (free_null(&res), NULL);
+	return (res);
+}
+
+char	*read_line(int fd, char **buffer, char *read_buffer)
+{
+	ssize_t	bytes_read;
+	char	*new_line;
+	char	*tmp;
+
+	new_line = ft_strchr(*buffer, '\n');
+	while (new_line == NULL)
+	{
+		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (free_null(buffer), NULL);
+		if (bytes_read == 0)
+			return (create_line(0, buffer));
+		read_buffer[bytes_read] = '\0';
+		tmp = *buffer;
+		*buffer = ft_strjoin(*buffer, read_buffer);
+		free(tmp);
+		if (*buffer == NULL)
+			return (NULL);
+		new_line = ft_strchr(*buffer, '\n');
+	}
+	return (create_line(new_line - *buffer + 1, buffer));
 }
 
 char	*get_next_line(int fd)
 {
-	char *buffer;
-	char *next_line;
-	
-	buffer = (char *)malloc((sizeof(char) * BUFFER_SIZE) + 1);
-	next_line = readline(fd, buffer);
-	return (next_line);
+	static char	*buffers[MAX_FD + 1] = {NULL};
+	char		*line;
+	char		*read_buffer;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FD)
+		return (NULL);
+	read_buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (read_buffer == NULL)
+		return (free_null(&buffers[fd]), NULL);
+	if (buffers[fd] == NULL)
+	{
+		buffers[fd] = ft_strdup("");
+		if (buffers[fd] == NULL)
+			return (free_null(&read_buffer), NULL);
+	}
+	line = read_line(fd, &buffers[fd], read_buffer);
+	free(read_buffer);
+	return (line);
 }
-
-int	main(void)
-{
-	int fd1;
-	int fd2;
-	// int fd3;
-
-	fd1 = open("textfile.txt", O_RDONLY);
-	fd2 = open("textfile2.txt", O_RDONLY);
-	// fd3 = open("textfile3.txt", O_RDONLY);
-
-	printf("The fist 	line of the file 1 = %s\n", get_next_line(fd1));
-	printf("The fist 	line of the file 2 = %s\n", get_next_line(fd2));
-	// printf("The fist 	line of the file 3 = %s\n", get_next_line(fd3));
-	printf("The seccond line of the file 1 = %s\n", get_next_line(fd1));
-	printf("The seccond line of the file 2 = %s\n", get_next_line(fd2));
-	// printf("The seccond line of the file 3 = %s\n", get_next_line(fd3));
-
-	return (0);
-}
-
