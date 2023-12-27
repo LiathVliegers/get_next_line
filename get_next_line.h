@@ -6,7 +6,7 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 19:44:49 by livliege          #+#    #+#             */
-/*   Updated: 2023/12/19 19:44:52 by livliege         ###   ########.fr       */
+/*   Updated: 2023/12/22 21:05:19 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,13 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 // take these out:
 #include <stdio.h>
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 5
+#endif
 
 char	*get_next_line(int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -29,5 +34,5 @@ void	*ft_calloc(size_t nmemb, size_t size);
 size_t	ft_strlen(const char *str);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_putchar(char c);
-
+// void	*ft_memmove(void *dest, const void *src, size_t n);
 #endif

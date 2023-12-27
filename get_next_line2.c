@@ -6,7 +6,7 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:12:13 by livliege          #+#    #+#             */
-/*   Updated: 2023/12/20 16:03:47 by livliege         ###   ########.fr       */
+/*   Updated: 2023/12/22 21:17:29 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@
 // 	int fd2;
 // 	// int fd3;
 
-// 	fd1 = open("textfile.txt", O_RDONLY);
+// 	fd1 = open("textfile1.txt", O_RDONLY);
 // 	fd2 = open("textfile2.txt", O_RDONLY);
 // 	// fd3 = open("textfile3.txt", O_RDONLY);
 
@@ -124,102 +124,138 @@
 
 
 
-// #include "get_next_line.h"
+#include "get_next_line.h"
 
-// // take these out:
-// #include <stdio.h>
-// // did you take out the forbidden headers?
+// take these out:
+#include <stdio.h>
+// did you take out the forbidden headers?
 
-// #define RED "\033[91m"
-// #define GREEN "\033[92m"
-// #define BLUE "\033[94m"
-// #define DEFAULT "\033[0m"
+#define RED "\033[91m"
+#define GREEN "\033[92m"
+#define BLUE "\033[94m"
+#define DEFAULT "\033[0m"
 
-// # define FD_LIMIT 1024
-
-// #ifndef BUFFER_SIZE
-// # define BUFFER_SIZE 10
-// #endif
+# define FD_LIMIT 1024
 
 
 
-// char *get_remainder(char *line)
-// {
-// 	int i;
-// 	int j;
-// 	char *after_nlc;
+char *get_remainder(char *line)
+{
+	int i;
+	int j;
+	char *remainder;
 	
-// 	i = 0;
-// 	j = 0;
-// 	after_nlc = (char *)malloc(sizeof(char) * ft_strlen(line)); // PROTECT
-// 	while (line[i] != '\0' && line[i] != '\n')
-// 		i++;
-// 	i++;
-// 	while (line[i] != '\0')
-// 	{
-// 		after_nlc[j] = line[i];
-// 		i++;
-// 		j++;
-// 	}
-// 	after_nlc[j] = '\0';
-// 	// free line?
-// 	return (after_nlc);
-// }
-// char *get_line(char *line)
-// {
-// 	int i;
-// 	char *next_line;
+	i = 0;
+	remainder = (char *)malloc(sizeof(char) * ft_strlen(line));
+	if (remainder == NULL)
+		return (NULL); 
+	while (line[i] != '\0' && line[i] != '\n')
+		i++;
+	if (line[i] == '\n')
+		i++;
+	j = 0;
+	while (line[i] != '\0')
+	{
+		remainder[j] = line[i];
+		i++;
+		j++;
+	}
+	remainder[j] = '\0';
+	return (remainder);
+}
+char *get_line(char *line)
+{
+	int i;
+	char *next_line;
 	
-// 	i = 0;
-// 	while (line[i] != '\0' && line[i] != '\n')
-// 		i++;
-// 	next_line = (char *)malloc(sizeof(char) * (i + 2));  // PROTECT!
-// 	i = 0;
-// 	while (line[i] != '\0' && line[i] != '\n')
-// 	{
-// 		next_line[i] = line[i];
-// 		i++;
-// 	}
-// 	if (line[i] == '\n')
-// 	{
-// 		next_line[i] = line[i];
-// 		i++;
-// 	}
-// 	next_line[i] = '\0';
-// 	return (next_line);
-// }
+	// printf("'%s%s%s',\n", RED, line, DEFAULT);
+	i = 0;
+	while (line[i] != '\0' && line[i] != '\n')
+		i++;
+	next_line = (char *)malloc(sizeof(char) * (i + 2));
+	if (next_line == NULL)
+		return (NULL);
+	i = 0;
+	while (line[i] != '\0' && line[i] != '\n')
+	{
+		next_line[i] = line[i];
+		i++;
+	}
+	if (line[i] == '\n')
+	{
+		next_line[i] = line[i];
+		i++;
+	}
+	next_line[i] = '\0';
+	return (next_line);
+}
 
-// char *read_to_nlc(int fd, char *line)
+char *read_to_nlc(int fd, char *line)
+{
+	int bytes_read;
+	char *buffer;
+	char *tmp;
+	
+	// printf("'%s%s%s',\n", RED, line, DEFAULT);
+	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1); // protect this
+	if (buffer == NULL)
+		return (NULL);
+	bytes_read = 1;
+	while (!ft_strchr(line, '\n') && bytes_read != 0)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE); // if bytes < 0, protect this
+		buffer[bytes_read] = '\0';
+		tmp = ft_strjoin(line, buffer);
+		free(line);
+		line = tmp;
+	}
+	free (buffer);
+	printf("%s%s%s\n", RED, line, DEFAULT);
+	return (line);
+}
+
+// char *dorian_read_to_nlc(int fd, char *line)
 // {
-// 	int bytes_read;
-// 	char *buffer;
+// 	int		bytes_read;
+// 	char	*buffer;
+// 	char	*tmp;
+// 	int		strlen;
 
-// 	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1); // protect this
+// 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+// 	if (buffer == NULL)
+// 		return (NULL);
 // 	bytes_read = 1;
-	
 // 	while (!ft_strchr(line, '\n') && bytes_read != 0)
 // 	{
 // 		bytes_read = read(fd, buffer, BUFFER_SIZE); // if bytes < 0, protect this
+// 		if (bytes_read < 0)
+// 			return (free(buffer), NULL);
 // 		buffer[bytes_read] = '\0';
-// 		line = ft_strjoin(line, buffer);
+// 		tmp = ft_strjoin(line, buffer);
+// 		free(line);
+// 		line = tmp;
 // 	}
-// 	// free buffer?
+// 	free (buffer);
+// 	// printf("%s%s%s\n", RED, line, DEFAULT);
 // 	return (line);
 // }
 
+char *get_next_line(int fd)
+{
+	static char *substrings[FD_LIMIT];
+	char *next_line;
+	char *temp;	// do I need to give it a size?
 
-// char *get_next_line(int fd)
-// {
-// 	static char *substrings[FD_LIMIT];
-// 	char *next_line;
-// 	// char *temp;	// do I need to give it a size?
-
-// 	substrings[fd] = read_to_nlc(fd, substrings[fd]);
-// 	next_line = get_line(substrings[fd]);
-// 	substrings[fd] = get_remainder(substrings[fd]);
-// 	// free temp?
-// 	return (next_line);
-// }
+	// if (fd <= 0 || BUFFER_SIZE == 0 || BUFFER_SIZE > INT_MAX)
+	// 	return (NULL);
+	if (!substrings[fd] || !ft_strchr(substrings[fd], '\n'))
+		substrings[fd] = read_to_nlc(fd, substrings[fd]);
+	next_line = get_line(substrings[fd]);
+	temp = get_remainder(substrings[fd]);
+	free (substrings[fd]);
+	substrings[fd] = temp;
+	return (next_line);
+}
 
 
 // int	main(void)
@@ -243,35 +279,35 @@
 // }
 
 
-// int	main(void)
-// {
-// 	int fd1;
-// 	// int fd2;
-// 	// int fd3;
-// 	int nb;
-// 	char *line;
+int	main(void)
+{
+	int fd1;
+	// int fd2;
+	// int fd3;
+	int nb;
+	char *line;
 
-// 	fd1 = open("textfile1.txt", O_RDONLY);
-// 	// fd2 = open("textfile2.txt", O_RDONLY);
-// 	// fd3 = open("textfile3.txt", O_RDONLY);
+	fd1 = open("textfile1.txt", O_RDONLY);
+	// fd2 = open("textfile2.txt", O_RDONLY);
+	// fd3 = open("textfile3.txt", O_RDONLY);
 
-// 	nb = 1;
-// 	while (nb <= 10)
-// 	{
-// 		line = get_next_line(fd1);
-// 		printf("line %d of fd1 is: %s", nb, line);
-// 		free(line);
-// 		// line = get_next_line(fd2);
-// 		// printf("line %d of fd2 is: %s\n", nb, line);
-// 		// free(line);
-// 		// line = get_next_line(fd3);
-// 		// printf("line %d of fd3 is: %s\n", nb, line);
-// 		// free(line);
-// 		nb++;
-// 	}
-// 	// close fd's?
-// 	return (0);
-// }
+	nb = 1;
+	while (nb <= 10)
+	{
+		line = get_next_line(fd1);
+		printf("line %d of fd1 is: %s", nb, line);
+		free(line);
+		// line = get_next_line(fd2);
+		// printf("line %d of fd2 is: %s\n", nb, line);
+		// free(line);
+		// line = get_next_line(fd3);
+		// printf("line %d of fd3 is: %s\n", nb, line);
+		// free(line);
+		nb++;
+	}
+	// close fd's?
+	return (0);
+}
 
 
 
