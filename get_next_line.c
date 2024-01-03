@@ -10,24 +10,127 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "get_next_line.h"
-
-// take these out:
-#include <stdio.h>
-// did you take out the forbidden headers?
 
 #define RED "\033[91m"
 #define GREEN "\033[92m"
 #define BLUE "\033[94m"
 #define DEFAULT "\033[0m"
 
-# define FD_LIMIT 1024
+// TODO: check if all mallocs are freed correctly
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
-#endif
+char *get_remainder(char *line_nlc_remainder)
+{
+	char 	*remainder;
+	char	*temp;
+	int		nlc;
+	int		i;
+
+	if (line_nlc_remainder[i] == '\0')
+		return (NULL);
+
+	nlc = 0;
+	while (line_nlc_remainder[nlc] != '\0' && line_nlc_remainder[nlc] != '\n')
+		nlc++;
+
+	temp = (char *)malloc(sizeof(char) * (ft_strlen(line_nlc_remainder) - nlc + 1));
+	if (temp == NULL)
+		return (NULL);
+	
+	nlc++;
+
+	i = 0;
+
+	while (line_nlc_remainder != '\0')
+		temp[i++] = line_nlc_remainder[nlc++];
+
+	temp[i] = '\0';
+
+	remainder = temp;  // use copy function?
+	free (temp);
+	return (remainder);
+}
+
+
+char *get_line(char *line_nlc_remainder)
+{
+	char 	*line;
+	char	*temp;
+	int		i;
+	int		nlc;
+
+	if (line_nlc_remainder[i] == '\0')
+	{}
+		return (NULL);
+
+	nlc = 0;
+	while (line_nlc_remainder[nlc] != '\0' && line_nlc_remainder[nlc] != '\n')
+		nlc++;
+
+	temp = (char *)malloc(sizeof(char) * (nlc + 2));
+	if (temp == NULL)
+		return (NULL);
+
+	i = 0;
+	while (line_nlc_remainder[i] != '\0' && line_nlc_remainder[i] != '\n')
+	{
+		temp[i] = line_nlc_remainder[i];
+		i++;
+	}
+	if (line_nlc_remainder[i] == '\n')
+	{
+		temp[i] = line_nlc_remainder[i];
+		i++;
+	}
+	temp[i] = '\0';
+	line = temp;  // use copy function?
+	free (temp);
+	return (line); // can i free line later in get_next_line? 
+}
+
+
+char *read_fd(int fd, char *line_nlc_remainder)
+{
+	char	*buffer;
+	int		bytes_read;
+	
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buffer == NULL)
+		return (NULL);
+
+	bytes_read = 1;
+	while (!ft_strchr(line_nlc_remainder, '\n') && (bytes_read != 0))
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+		{
+			free (buffer);
+			return (NULL);
+		}
+		buffer[bytes_read] = '\0';
+		line_nlc_remainder = ft_strjoin(line_nlc_remainder, buffer);
+	}
+	free (buffer);
+	return (line_nlc_remainder);
+}
+
+
+char *get_next_line(int fd)
+{
+	static char *substrings[FD_LIMIT + 1] = {NULL};
+	char		*next_line;
+
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX || fd < 0 || fd > FD_LIMIT) // fd >= FDLIMIT?
+		return (NULL);
+
+	substrings[fd] = read_fd(fd, substrings[fd]);
+	if (substrings[fd] == NULL)
+		return (NULL);
+
+	next_line = get_line(substrings[fd]);
+	substrings[fd] = get_remainder(substrings[fd]);
+	return (next_line);
+}
 
 
 
@@ -35,122 +138,27 @@
 
 int	main(void)
 {
-	int		fd;
-	int 	line_nbr = 1;
-	char	*str;
-	
-	fd = open("textfile.txt", O_RDONLY);
-	printf("%sfd = %d%s\n", BLUE, fd, DEFAULT);
-	
-	// str = get_next_line(fd);
-	// printf("%s", str);
+	int fd1;
+	// int fd2;
+	// int fd3;
 
-	while((str = get_next_line(fd)))
-	{
-		printf("%sline #%d:%s %s", RED, line_nbr, DEFAULT, str);
-		line_nbr++;
-	}
-	// ft_putchar('\n');
+	fd1 = open("textfile1.txt", O_RDONLY);
+	// fd2 = open("textfile2.txt", O_RDONLY);
+	// fd3 = open("textfile3.txt", O_RDONLY);
+
+	printf("%sThe fist		line of the file 1 = %s%s\n", BLUE, DEFAULT, get_next_line(fd1));
+	printf("%sThe seccond	line of the file 1 = %s%s\n", BLUE, DEFAULT, get_next_line(fd1));
+	printf("%sThe third		line of the file 1 = %s%s\n", BLUE, DEFAULT, get_next_line(fd1));
+	
+	// printf("%sThe fist		line of the file 2 = %s%s\n", RED, DEFAULT, get_next_line(fd2));
+	// printf("%sThe seccond	line of the file 2 = %s%s\n", RED, DEFAULT, get_next_line(fd2));
+	// printf("%sThe third		line of the file 2 = %s%s\n", RED, DEFAULT, get_next_line(fd2));
+	
+	// printf("%sThe fist		line of the file 3 = %s%s\n", GREEN, DEFAULT, get_next_line(fd3));
+	// printf("%sThe seccond	line of the file 3 = %s%s\n", GREEN, DEFAULT, get_next_line(fd3));
+	// printf("%sThe third		line of the file 3 = %s%s\n", GREEN, DEFAULT, get_next_line(fd3));
+
 	return (0);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-// VINCENT'S VERSION:
-
-#include "get_next_line.h"
-
-#include <unistd.h>
-#include <stdio.h>
-
-#define MAX_FD	1024
-
-static void	free_null(char **ptr)
-{
-	if (*ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-}
-
-char	*create_line(int nl_position, char **buffer)
-{
-	char	*res;
-	char	*tmp;
-
-	if (nl_position == 0)
-	{
-		if (**buffer == '\0')
-			return (free_null(buffer), NULL);
-		res = *buffer;
-		*buffer = NULL;
-		return (res);
-	}
-	res = ft_substr(*buffer, 0, nl_position);
-	if (res == NULL)
-		return (free_null(buffer), NULL);
-	tmp = *buffer;
-	*buffer = ft_substr(*buffer, nl_position, BUFFER_SIZE);
-	free(tmp);
-	if (*buffer == NULL)
-		return (free_null(&res), NULL);
-	return (res);
-}
-
-char	*read_line(int fd, char **buffer, char *read_buffer)
-{
-	ssize_t	bytes_read;
-	char	*new_line;
-	char	*tmp;
-
-	new_line = ft_strchr(*buffer, '\n');
-	while (new_line == NULL)
-	{
-		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (free_null(buffer), NULL);
-		if (bytes_read == 0)
-			return (create_line(0, buffer));
-		read_buffer[bytes_read] = '\0';
-		tmp = *buffer;
-		*buffer = ft_strjoin(*buffer, read_buffer);
-		free(tmp);
-		if (*buffer == NULL)
-			return (NULL);
-		new_line = ft_strchr(*buffer, '\n');
-	}
-	return (create_line(new_line - *buffer + 1, buffer));
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*buffers[MAX_FD + 1] = {NULL};
-	char		*line;
-	char		*read_buffer;
-
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FD)
-		return (NULL);
-	read_buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (read_buffer == NULL)
-		return (free_null(&buffers[fd]), NULL);
-	if (buffers[fd] == NULL)
-	{
-		buffers[fd] = ft_strdup("");
-		if (buffers[fd] == NULL)
-			return (free_null(&read_buffer), NULL);
-	}
-	line = read_line(fd, &buffers[fd], read_buffer);
-	free(read_buffer);
-	return (line);
-}

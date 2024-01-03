@@ -1,52 +1,20 @@
-Halloooooooo dit is de eerste regel JOEPIIIEE!!!!!!!!!!!!!
+Halloooooooo dit is de eerste regel JOEPIIIEE!!!!!!!
 Dit is de tweede regel.
 Dit is de derde regel.
 Dit is de vierde regel. Hierna komen twee new lines, wat gaan we daarmee doen?
 
 
 Dit is de vijfde (of eigenlijk zevende) regel.
-
-
+line 8
+line 9
 dit is regel 10
+line 11
+line 12
+hello (13)
 
-
-hello
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Lieve Mieke,
-
-
-Nog een hele fijne kerst toegewenst! 
-We vinden het erg jammer dat we er niet bij konden zijn dit jaar, 
-en hopen dat je een fijne kerst hebt gehad met papa en 
-dat we de komende jaren weer een hele fijne kerst met zn allen te kunnen vieren!
-We wensen je alle goede dingen toe voor het nieuwe jaar, en een hele fijne jaarwisseling!
-
-Tot snel!! 
-
-Veel liefs Liath en Aleid
-
-
-
-
-Mieke Duijf
-Prins Clausstraat 1 
-8862 MA 
-Harlingen
-
-
+line 15
+line 16
+line 17
+line 18
+line 19
+Last line! (20)

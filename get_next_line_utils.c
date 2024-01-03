@@ -45,11 +45,11 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		strlen1;
-	int 	strlen2;
+	// int		strlen1;
+	// int 	strlen2;
 	int		i;
 	int		j;
-	char	*str;
+	char	str[ft_strlen(s1) + ft_strlen(s2) + 1];
 
 	// if (s1 && !s2)
 	// 	return ((char *)s1);
@@ -57,23 +57,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	// 	return ((char *)s2);
 	// if (s1 == NULL || s2 == NULL)
 	// 	return (NULL);
-	strlen1 = ft_strlen(s1);
-	strlen2 = ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (strlen1 + strlen2 + 1));
-	if (str == NULL)
-		return (NULL);
+
+	
+	// strlen1 = ft_strlen(s1);
+	// strlen2 = ft_strlen(s2);
+	//str = (char *)malloc(sizeof(char) * (strlen1 + strlen2 + 1));
+	// if (str == NULL)
+	// 	return (NULL);
+
 	i = 0;
-	while (i < strlen2)
+	while (i < ft_strlen(s1))
 	{
-		str[strlen1 + i] = s2[i];
+		str[i] = s1[i];
 		i++;
 	}
 	j = 0;
-	while (j < strlen1)
+	while (j < ft_strlen(s2))
 	{
-		str[j] = s1[j];
+		str[ft_strlen(s1) + j] = s2[j];
 		j++;
 	}
+
 	// i = 0;
 	// j = 0;
 	// while (s1 && s1[i] != '\0')
@@ -117,3 +121,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 // 	}
 // }
 
+// void	ft_putchar(char c)
+// {
+// 	write(1, &c, 1);
+// }

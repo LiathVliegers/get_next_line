@@ -19,9 +19,13 @@
 # include <limits.h>
 // take these out:
 #include <stdio.h>
+///////////////////////////////////////////  did you take out stdio?
+// DID YOU????
+
+# define FD_LIMIT 1024
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 10
 #endif
 
 char	*get_next_line(int fd);
