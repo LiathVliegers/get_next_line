@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// inspiration: 
+// https://github.com/ayogun/get_next_line/blob/main/get_next_line_bonus.c
+
 #include "get_next_line.h"
 
 #define RED "\033[91m"
