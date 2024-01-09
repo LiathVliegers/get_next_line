@@ -6,7 +6,7 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:29:03 by livliege          #+#    #+#             */
-/*   Updated: 2023/12/22 21:14:23 by livliege         ###   ########.fr       */
+/*   Updated: 2024/01/09 16:50:55 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,23 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	while (str && str[i] != '\0')
+
+	// the segfault is here !
+	if (!str)
+		return (i);
+	// hmm not a great solution haha
+		
+	while (str[i] != '\0')
 		i++;
 	return (i);
 }
-
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	// int		strlen1;
+	// int	strlen1;
 	// int 	strlen2;
-	int		i;
-	int		j;
-	char	str[ft_strlen(s1) + ft_strlen(s2) + 1];
+	size_t	i;
+	size_t	j;
+	char	*str;
 
 	// if (s1 && !s2)
 	// 	return ((char *)s1);
@@ -61,9 +65,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	
 	// strlen1 = ft_strlen(s1);
 	// strlen2 = ft_strlen(s2);
-	//str = (char *)malloc(sizeof(char) * (strlen1 + strlen2 + 1));
-	// if (str == NULL)
-	// 	return (NULL);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (str == NULL)
+		return (NULL);
 
 	i = 0;
 	while (i < ft_strlen(s1))
