@@ -6,7 +6,7 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 17:59:09 by livliege          #+#    #+#             */
-/*   Updated: 2024/01/09 17:00:34 by livliege         ###   ########.fr       */
+/*   Updated: 2024/01/11 19:45:01 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@
 
 #define RED "\033[91m"
 #define GREEN "\033[92m"
+#define YELLOW "\033[33m"
 #define BLUE "\033[94m"
+#define PURPLE "\033[35m"
+#define LIGHTBLUE "\033[36m"
 #define DEFAULT "\033[0m"
 
-// TODO: check if all mallocs are freed correctly
 char *get_remainder(char *line_nlc_remainder)
 {
 	char 	*remainder;
@@ -31,30 +33,22 @@ char *get_remainder(char *line_nlc_remainder)
 	nlc = 0;
 	if (line_nlc_remainder[i] == '\0')
 		return (line_nlc_remainder);
-
 	while (line_nlc_remainder[nlc] != '\0' && line_nlc_remainder[nlc] != '\n')
 		nlc++;
-
 	if (line_nlc_remainder[nlc] == '\n')
 	{
 		nlc++;
 	}
-
 	remainder = (char *)malloc(sizeof(char) * (ft_strlen(&line_nlc_remainder[nlc]) + 1));
 	if (remainder == NULL)
 		return (free(line_nlc_remainder), NULL);
-	
-
-
 	while (line_nlc_remainder[nlc] != '\0')
 	{
 		remainder[i] = line_nlc_remainder[nlc];
 		nlc++;
 		i++;
 	}
-
 	remainder[i] = '\0';
-
 	return (remainder);
 }
 
@@ -99,6 +93,9 @@ char *read_fd(int fd, char *line_nlc_remainder)
 	{
 		temp = line_nlc_remainder;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		
+		printf("buffer: %s%s%s\n", RED, buffer, DEFAULT);
+
 		if (bytes_read < 0)
 		{
 			free(line_nlc_remainder);			
@@ -106,6 +103,9 @@ char *read_fd(int fd, char *line_nlc_remainder)
 		}
 		buffer[bytes_read] = '\0';
 		line_nlc_remainder = ft_strjoin(temp, buffer);
+		
+		printf("line: %s%s%s\n", GREEN, line_nlc_remainder, DEFAULT);
+		
 		if (line_nlc_remainder == NULL)
 		{
 			return (free(temp), NULL);
@@ -120,19 +120,15 @@ char *get_next_line(int fd)
 	static char *substrings[FD_LIMIT + 1] = {NULL};
 	char		*next_line;
 
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX || fd < 0 || fd > FD_LIMIT) // fd >= FDLIMIT?
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX || fd < 0 || fd > FD_LIMIT)
 	{
 		return (NULL);
 	}
-
-
 	substrings[fd] = read_fd(fd, substrings[fd]);
 	if (substrings[fd] == NULL)
 	{
 		return (NULL);
 	}
-
-	
 	next_line = get_line(substrings[fd]);
 	if (next_line == NULL)
 	{
@@ -145,9 +141,6 @@ char *get_next_line(int fd)
 	}
 	return (next_line);
 }
-
-
-
 
 
 int	main(void)
@@ -165,7 +158,7 @@ int	main(void)
 
 	while ((line = get_next_line(fd1)))
 	{
-		printf("%sLine #%d of the file 1 = %s%s", BLUE, line_number, DEFAULT, line);
+		printf("%sLine #%d of file 1 = %s%s", BLUE, line_number, DEFAULT, line);
 		line_number++;
 	}
 
