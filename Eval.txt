@@ -16,6 +16,8 @@ might have understood the project's instructions and the scope of its
 functionalities. Always keep an open mind and grade them as honestly as
 possible. The pedagogy is useful only and only if the peer-evaluation is
 done seriously.
+
+
 Guidelines
 
 - Only grade the work that was turned in the Git repository of the evaluated
@@ -53,6 +55,7 @@ the heap must be properly freed before the end of execution.
 You are allowed to use any of the different tools available on the computer,
 such as leaks, valgrind, or e_fence. In case of memory leaks, tick the
 appropriate flag.
+
 
 
 Mandatory Part
