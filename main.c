@@ -6,7 +6,7 @@
 /*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:13:03 by livliege          #+#    #+#             */
-/*   Updated: 2024/01/17 21:15:13 by livliege         ###   ########.fr       */
+/*   Updated: 2024/01/21 20:15:24 by livliege         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,18 @@ int	main(void)
 	char 	*line;
 	int 	fd;
 
-	line_number = 1;
-	
+	// fd = STDIN_FILENO;		/* in terminal: compile the files and then run the command:  "    < txt_files/textfile1.txt ./a.out"   */	
 	// fd = 42;
-	fd = open("txt_files/textfile4.txt", O_RDONLY);
+	fd = open("txt_files/textfile1.txt", O_RDONLY);
 
+	line_number = 1;
 	if (!(line = get_next_line(fd))){
 		printf("%s", line);
 		free(line);
+		return (0);
 	}
+	printf("%sLine #%d = %s%s", BLUE, line_number, DEFAULT, line);
+	line_number++;
 	while ((line = get_next_line(fd)))
 	{
 		printf("%sLine #%d = %s%s", BLUE, line_number, DEFAULT, line);
