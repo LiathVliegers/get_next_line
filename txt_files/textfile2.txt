@@ -1,23 +1,40 @@
-In the Star Wars universe, every Padawan has to go through the Jedi Trials before becoming a Jedi and a full member of the Jedi Order. 
-After years of training under a Jedi Master, Padawans deemed ready by their teachers face trials to test their skills and, if they succeed, they are knighted. 
-Sometimes, performing extraordinary feat or demonstrating incredible courage can earn a Padawan the title of Jedi Knight. An example was Obi-Wan Kenobi, 
-who was knighted after his duel with Darth Maul in Star Wars: Episode I - The Phantom Menace.
-
-Before the previous Expanded Universe became Legends, much was known about the Jedi Trials and how exactly they worked. 
-In the time of the Republic, the trials were administered by the Jedi Council and involved five different tests: 
-the Trial of Skill, Trial of Courage, Trial of Flesh, the Trial of the Spirit, and the Trial of Insight. 
-Sometimes, the Council would substitute these for important and critical missions, where the Padawans would prove themselves on the field instead. 
-After passing the test, Padawans would then attend their Knighting ceremony, where their braids would be cut, and they would officially become Jedi Knights.
-Multiple trials sometimes could be accomplished at the same time if a Padawans demonstrated the five requirements. 
-Padawans were expected to display advanced lightsaber techniques and incredible self-discipline. As a test of their courage, they would be sent out of the Temple to complete solo missions. 
-The Trial of Flesh, meanwhile, required Padawans to experience and overcome physical pain and hardships, or even loss. The last two other tests were less physically-focused. 
-The Trial of the Spirit tested a Padawan against their self-doubts and fears, similar when Master Yoda trained Luke and then told him to enter the cave in Dagobah in The Empire Strikes Back.
-Finally, the Trial of Insight ensured that Padawans were ready to face the real world, distinguish truth from lies, and could solve challenging puzzles, 
-demonstrating great insight and intelligence. In times of strife and conflict, the normal Jedi Trials could be bypassed if the Padawan showed incredible skill, 
-courage, or dedication to the Jedi Order. This was the case for Luke Skywalker, who earned his title without going through the Jedi trials in the Legends universe.
-
-There have been two major examples of Padawans facing trials in the current Star Wars canon: Ahsoka Tano in Star Wars: The Clone Wars and Ezra in Star Wars Rebels. 
-After being accused of bombing a Jedi hangar, Ahsoka was expelled from the Jedi Order and was forced to flee and prove her innocence. 
-The Jedi Council considered this ordeal to be her Padawan trial, but Ahsoka refused to be knighted and left the Order. 
-Meanwhile, Ezra was taken to a Jedi temple on the planet of Lothal to test if he could become a Jedi. Inside, he was shown visions and forced to confront his fears and insecurities. 
-As a result of passing, Ezra received a kyber crystal and built his own lightsaber.
+This is textfile 2, line 1
+This is textfile 2, line 2
+This is textfile 2, line 3
+This is textfile 2, line 4
+This is textfile 2, line 5
+This is textfile 2, line 6
+This is textfile 2, line 7
+This is textfile 2, line 8
+This is textfile 2, line 9
+This is textfile 2, line 10
+This is textfile 2, line 11
+This is textfile 2, line 12
+This is textfile 2, line 13
+This is textfile 2, line 14
+This is textfile 2, line 15
+This is textfile 2, line 16
+This is textfile 2, line 17
+This is textfile 2, line 18
+This is textfile 2, line 19
+This is textfile 2, line 20
+This is textfile 2, line 21
+This is textfile 2, line 22
+This is textfile 2, line 23
+This is textfile 2, line 24
+This is textfile 2, line 25
+This is textfile 2, line 26
+This is textfile 2, line 27
+This is textfile 2, line 28
+This is textfile 2, line 29
+This is textfile 2, line 30
+This is textfile 2, line 31
+This is textfile 2, line 32
+This is textfile 2, line 33
+This is textfile 2, line 34
+This is textfile 2, line 35
+This is textfile 2, line 36
+This is textfile 2, line 37
+This is textfile 2, line 38
+This is textfile 2, line 39
+This is textfile 2, line 40

@@ -1,8 +1,5 @@
 
 
-
-
-
 File Descriptor (fd) return values:
 -1 	= NONEXISTANT.
 0 	= STDIN				this is where it gets its input.
@@ -16,8 +13,6 @@ if the program returns -1 the file in nonexistent.
 
 EVERYTHING is a file. The terminal is a file, a file is a file enz.
 the file descriptor is a series of numbers linked to a specific file that your operating system is handling when a process is launched.
-
-
 
 
 
@@ -76,121 +71,4 @@ EXAMPLE:
 read(3, buf, 10);
 "Read from the fd 3 into the buffer, 10 bytes (or in this case chars) per call to the function"
 when i recall the function, i get THE NEXT 10 bytes(chars).
-
-
-
-
-
-
-
-
-
-
-
-
-
-WORKING VERSION OF GET NEXT LINE:
-char	*get_next_line(int fd)
-{
-	char buffer[1024];
-	int bytes_read;
-	char *next_line;
-	int len;
-	static int start = 0;
-	
-	len = 0;
-	bytes_read = read(fd, buffer, sizeof(buffer));
-
-	printf("%d bytes read!\n", bytes_read);
-	
-	while(buffer[start + len] != '\n')
-		len++;
-	
-	next_line = ft_substr(buffer, start, len);
-	start = start + len + 1;
-
-	return(next_line);
-}
-
-int	main(void)
-{
-	int fd;
-
-	fd = open("textfile.txt", O_RDONLY);
-	printf("The fist line of the file = %s\n", get_next_line(fd));
-	printf("The seccond line of the file = %s\n", get_next_line(fd));
-	printf("The third line of the file = %s\n", get_next_line(fd));
-	printf("The fourth line of the file = %s\n", get_next_line(fd));
-	printf("The fifth line of the file = %s\n", get_next_line(fd));
-	printf("The sixth line of the file = %s\n", get_next_line(fd));
-	printf("The seventh line of the file = %s\n", get_next_line(fd));
-	
-	return (0);
-}
-
-TEXTFILE:
-Halloooooooo dit is de eerste regel JOEPIIIEE!!!!!!!!!!!!!
-Dit is de tweede regel.
-Dit is de derde regel.
-Dit is de vierde regel. Hierna komen twee new lines, wat gaan we daarmee doen?
-
-
-Dit is de vijfde (of eigenlijk zevende) regel.
-
-OUTPUT:
-234 bytes read!
-The fist line of the file = Halloooooooo dit is de eerste regel JOEPIIIEE!!!!!!!!!!!!!
-0 bytes read!
-The seccond line of the file = Dit is de tweede regel.
-0 bytes read!
-The third line of the file = Dit is de derde regel.
-0 bytes read!
-The fourth line of the file = Dit is de vierde regel. Hierna komen twee new lines, wat gaan we daarmee doen?
-0 bytes read!
-The fifth line of the file = 
-0 bytes read!
-The sixth line of the file = 
-0 bytes read!
-The seventh line of the file = Dit is de vijfde (of eigenlijk zevende) regel.
-
-
---------------------------------------------------------------------------------
-
-
-
-GET NEXT LINE!
-
-MAIN
-- open the file or files in main
-- call ft_get next line for the fd you want
-GET_NEXT_LINE(fd)
-- in the function ft_get_nextLine we declare a static char* substrings[MAX_FD], we also declare a small char *buffer to store the BUFFER_SIZE abount of bites in, and a char *next_line that we were meant to get
-- if de fd is less than 0 or BUFFER_SIZE is 0 or less, we return (NULL)
-- we malloc BUFFER_SIZE + 1 for buffer and protect it ofcourse
-- then we initialize next_line to the return value of the function ft_readline and pass it the fd, the buffer and substrings[fd], this is where the magic happens!
-- we don't need buffer anymore so we can free it, and set it to NULL
-- now we need to put the remainder of buffer (after the \n) in substrings[fd]
-READLINE(the fd, the buffer, substrings[fd])
-- initialize int bytes_read and a char *next_line and a char *temp
-- bytes_read = 1
-- in a while loop: while bytes_read != 0, then we do this:
-- bytes_read = read(file bla bla)
-- if (ft_strchr(buf, '\n'))
-	{
-		
-	}
-	else
-	{
-- 		temp = next_line
-- 		next_line = strjoin(temp, buffer)
-	}
-- 
-- 
-- 
-- 
-
-
-
-
-
 

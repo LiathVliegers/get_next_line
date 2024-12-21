@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: livliege <livliege@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 21:13:03 by livliege          #+#    #+#             */
-/*   Updated: 2024/01/21 20:15:24 by livliege         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: livliege <livliege@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/17 21:13:03 by livliege      #+#    #+#                 */
+/*   Updated: 2024/12/21 15:51:42 by livliege      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,15 @@
 
 int	main(void)
 {
-	int 	line_number;
-	char 	*line;
-	int 	fd;
+	int		line_number;
+	char	*line;
+	int		fd;
 
-	// fd = STDIN_FILENO;		/* in terminal: compile the files and then run the command:  "    < txt_files/textfile1.txt ./a.out"   */	
-	// fd = 42;
-	fd = open("txt_files/textfile1.txt", O_RDONLY);
-
+	fd = open("txt_files/empty", O_RDONLY);
 	line_number = 1;
-	if (!(line = get_next_line(fd))){
+	line = get_next_line(fd);
+	if (!line)
+	{
 		printf("%s", line);
 		free(line);
 		return (0);
